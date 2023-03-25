@@ -1,0 +1,17 @@
+.app-container {
+    display:flex;
+    
+}
+.menu {
+    display:flex;
+    flex-direction:column;
+    /* background:red; */
+    min-width: 300px;
+    border: 3px solid lightsteelblue;
+    border-width: 0px 3px 0px 0px;
+    /* min-height: 300px; */
+}
+.content-container{
+    /* background:black; */
+    
+}   
