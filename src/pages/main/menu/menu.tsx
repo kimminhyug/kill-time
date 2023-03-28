@@ -1,51 +1,83 @@
-import { List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse } from "@mui/material";
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import { useState } from "react";
+import {
+  List,
+  ListSubheader,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+} from "@mui/material";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import { useCallback, useState } from "react";
+import { DEFAULT_MENU } from "./constants/menu.constatns";
+import { ICON } from "../icon/icon";
+import { IMenu } from "./types/menu.types";
 
-const Menu = ()=>{
-    const [open , setOpen] = useState(false);
-    const [menuList , ] = useState([]);
-    const handleClick = ()=>{
-        setOpen((prev)=>!prev)
-    }
-    
-    return (<List
-        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+const Menu = () => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [menuList] = useState<IMenu[]>(DEFAULT_MENU);
+  const handleClick = () => {
+    setOpen((prev) => !prev);
+  };
+
+  const getMenu = useCallback(() => {
+    return menuList.map((menu, menuIndex) => {
+      const Icon = menu?.icon ? ICON[menu.icon] : null;
+      return (
+        <ListItemButton
+          key={menuIndex}
+          sx={{
+            "& svg": {
+              color: "rgba(255,255,255,0.8)",
+              transition: "0.2s",
+              transform: "translateX(0) rotate(0)",
+            },
+            "&:hover, &:focus": {
+              bgcolor: "unset",
+              "& svg:first-of-type": {
+                transform: "translateX(-4px) rotate(-20deg)",
+              },
+              "& svg:last-of-type": {
+                right: 0,
+                opacity: 1,
+              },
+            },
+            "&:after": {
+              content: '""',
+              position: "absolute",
+              height: "80%",
+              display: "block",
+              left: 0,
+              width: "1px",
+              bgcolor: "divider",
+            },
+          }}
+        >
+          {Icon && (
+            <ListItemIcon>
+              <Icon />
+            </ListItemIcon>
+          )}
+          <ListItemText primary={menu.name} />
+        </ListItemButton>
+      );
+    });
+  }, [menuList]);
+
+  return (
+    <>
+      <List
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            서브헤더
+            기본 메뉴
           </ListSubheader>
         }
       >
-        <ListItemButton>
-          <ListItemIcon>
-            <AccessAlarmIcon/>
-          </ListItemIcon>
-          <ListItemText primary="Sent mail" />
-        </ListItemButton>
-        <ListItemButton>
-          <ListItemIcon>
-            
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItemButton>
-        <ListItemButton onClick={handleClick}>
-          <ListItemIcon>
-          <AccessAlarmIcon/>
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-          {open ? < ></> : < ></>}
-        </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              
-              <ListItemText primary="Starred" />
-            </ListItemButton>
-          </List>
-        </Collapse>
-      </List>)
-}
+        {getMenu()}
+      </List>
+    </>
+  );
+};
 export default Menu;
