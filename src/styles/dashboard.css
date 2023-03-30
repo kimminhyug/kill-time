@@ -1,0 +1,8 @@
+.component {
+  border: 3px solid lightblue;
+  border-radius: 3px;
+}
+.react-grid-layout {
+  width: 100vw;
+  min-height: calc(100vh - 6px);
+}
