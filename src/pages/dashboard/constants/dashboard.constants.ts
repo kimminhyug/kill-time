@@ -39,9 +39,9 @@ export const getComponentLayoutSample = (
       y: y,
       w: defaultSize.w,
       h: defaultSize.h,
-      minW: defaultSize.w * 2,
+      minW: defaultSize.w,
       maxW: Infinity,
-      minH: defaultSize.w * 2,
+      minH: defaultSize.h,
       maxH: Infinity,
       static: false,
       isDraggable: true,
@@ -52,5 +52,6 @@ export const getComponentLayoutSample = (
 
     result.push(componentSample);
   }
+
   return { [breakPoint]: result };
 };

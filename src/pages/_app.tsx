@@ -1,6 +1,5 @@
-import "@/styles/globals.css";
-import "../styles/main.css";
-import "../styles/dashboard.css";
+import "../styles/app.scss";
+
 import type { AppProps } from "next/app";
 
 import { ThemeProvider, Box, createTheme } from "@mui/material";
