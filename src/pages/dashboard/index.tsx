@@ -4,6 +4,7 @@ import { getComponentLayoutSample } from "./constants/dashboard.constants";
 import { Box } from "@mui/material";
 // widget 들은 lazy를 사용하여 동적으로 불러오도록 구현 해야 함
 import CPU from "./components/cpu";
+import { commonSX } from "../common/styles";
 
 const Dashboard = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -12,7 +13,7 @@ const Dashboard = () => {
   );
   const theme = "dark";
   return (
-    <Box className={`dashboard ${theme}`}>
+    <Box sx={commonSX} className={`dashboard ${theme}`}>
       <ResponsiveGridLayout
         className="layout"
         layouts={layouts}

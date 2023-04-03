@@ -1,4 +1,6 @@
-@import "dashboard.scss";
-@import "globals.scss";
-@import "dashboard.scss";
-@import "main.scss";
+@import "variables.scss";
+@import "layout/globals.scss";
+@import "layout/main.scss";
+@import "layout/dashboard.scss";
+@import "layout/login.scss";
+@import "layout/menu.scss";

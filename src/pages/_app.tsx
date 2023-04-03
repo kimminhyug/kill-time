@@ -8,11 +8,11 @@ import { theme } from "../utils/theme";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <Box className="app-container">
           <Component {...pageProps} />
-        </ThemeProvider>
-      </Box>
+        </Box>
+      </ThemeProvider>
     </>
   );
 }

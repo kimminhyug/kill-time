@@ -1,0 +1,54 @@
+// $dark-dashboard-background: rgb(37, 39, 44);
+// $dark-dashboard-font-color: rgba(255, 255, 255, 0.9);
+$dark-widget-background: rgb(48, 49, 56);
+
+.dashboard {
+  .component {
+    border: 3px solid lightblue;
+    border-radius: 3px;
+  }
+  &.dark .component {
+    border: 0px;
+    background: $dark-widget-background;
+    // 위젯 최초 추가 시  기울어지는 이벤트
+    // &.init {
+    //   &:hover {
+    //     transform: rotate(5deg);
+    //     .card:before {
+    //       transform: translatey(-2%) rotate(-4deg);
+    //     }
+    //     .card:after {
+    //       transform: translatey(2%) rotate(4deg);
+    //     }
+    //   }
+    // }
+
+    // 검토 필요
+    &:hover {
+      border: 1px solid #ffffff44;
+      box-shadow: 0 7px 50px 10px #000000aa;
+      transform: scale(1.015);
+      filter: brightness(1.3);
+      ::before {
+        filter: brightness(0.5);
+        top: -100%;
+        left: 200%;
+      }
+    }
+    &:active {
+      border: 1px solid #ffffff44;
+      box-shadow: 0 7px 50px 10px #000000aa;
+      transform: scale(1.015);
+      filter: brightness(1.3);
+      ::before {
+        filter: brightness(0.5);
+        top: -100%;
+        left: 200%;
+      }
+    }
+  }
+  .react-grid-layout {
+    width: 100vw;
+    min-height: calc(100vh - 6px);
+  }
+}

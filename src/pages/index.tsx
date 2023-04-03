@@ -2,6 +2,7 @@ import { Box, Button, CircularProgress, Link, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { commonSX } from "./common/styles";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,18 +21,7 @@ export default function Home() {
 
   //scss 작업 필요 하는김에 컴포넌트 분리 필요
   return (
-    <Box
-      sx={{
-        width: "100%",
-        display: "flex",
-        height: "calc(100vh - 6px)",
-        bgcolor: "background.paper",
-        color: "primary.main",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-      component="div"
-    >
+    <Box className="login-container" sx={commonSX} component="div">
       <Box
         component="div"
         sx={{
