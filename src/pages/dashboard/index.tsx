@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 // widget 들은 lazy를 사용하여 동적으로 불러오도록 구현 해야 함
 import CPU from "./components/cpu";
 import { commonSX } from "../common/styles";
+import Widget from "./components/component";
 
 const Dashboard = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -24,7 +25,7 @@ const Dashboard = () => {
         {layouts.lg.map((layout, layoutIndex) => {
           return (
             <div className="component" key={layout.i}>
-              {layoutIndex === 0 ? <CPU /> : layout.i}
+              <Widget componentId={layout.componentId} id={layout.i} />
             </div>
           );
         })}
