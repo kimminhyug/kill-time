@@ -11,8 +11,15 @@ import {
   Title,
 } from "chart.js";
 import { Chart } from "chart.js";
-Chart.register([CategoryScale, LinearScale, PointElement, LineElement, Title]);
+
 const cpu = ({ id, componentId }: { id: string; componentId: string }) => {
+  Chart.register([
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+  ]);
   const labels = new Array(20).fill(2020).map((val, index) => val + index);
   const data = {
     labels,

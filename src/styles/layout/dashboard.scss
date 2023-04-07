@@ -6,6 +6,8 @@ $dark-widget-background: rgb(48, 49, 56);
   .component {
     border: 3px solid lightblue;
     border-radius: 3px;
+    width: 100%;
+    height: 100%;
   }
   &.dark .component {
     border: 0px;

@@ -49,14 +49,14 @@ export const getComponentLayoutSample = (
       w: defaultSize.w,
       h: defaultSize.h,
       minW: defaultSize.w,
-      maxW: Infinity,
+      maxW: defaultSize.w * 2,
       minH: defaultSize.h,
-      maxH: Infinity,
-      static: false,
+      maxH: defaultSize.h * 2,
+      // static: false,
       isDraggable: true,
       isResizable: true,
-      resizeHandles: ["se"],
-      isBounded: false,
+      // resizeHandles: ["se"],
+      // isBounded: false,
     };
 
     result.push(componentSample);

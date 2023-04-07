@@ -8,8 +8,9 @@ import {
 } from "chart.js";
 import { Chart } from "chart.js";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Button } from "@mui/material";
-import { commonSX } from "../../common/styles";
+import { useQuery } from "@tanstack/react-query";
+import { getListTest } from "../../common/query";
+import { convertDateString } from "../../../utils/theme/time";
 
 const memory = ({ id, componentId }: { id: string; componentId: string }) => {
   Chart.register([
@@ -21,31 +22,62 @@ const memory = ({ id, componentId }: { id: string; componentId: string }) => {
   ]);
   const chartRef = useRef();
   const DATA_COUNT = 7;
-  const NUMBER_CFG = { count: DATA_COUNT, min: -100, max: 100 };
 
-  const [labels, setLabels] = useState<number[]>(
-    new Array(3)
-      .fill(new Date().getFullYear())
-      .map((val, index) => new Date().setFullYear(val + 1))
+  const { isLoading, data: queryResponse = 0 } = getListTest<number>({
+    url: "",
+    queryId: ["component", id],
+    callback: (response) => {
+      return response;
+    },
+    queryProps: { refetchInterval: 3000, enabled: true, staleTime: 1000 },
+  });
+
+  const [dataArray, setDataArray] = useState<{ x: string; y: number }[]>(
+    new Array(1).fill(new Date()).map((val, index) => {
+      if (index === 0) {
+        return {
+          x: convertDateString(val),
+          y: Math.floor(Math.random() * 100),
+        };
+      } else {
+        const now = new Date(val);
+        now.setFullYear(now.getFullYear() + 1);
+
+        return {
+          x: convertDateString(now),
+          y: Math.floor(Math.random() * 100),
+        };
+      }
+    })
   );
+
+  useEffect(() => {
+    if (!queryResponse) return;
+
+    updateData();
+  }, [queryResponse]);
+  // timeSeries data sample
+  //   datasets: [{
+  //     data: [{
+  //         x: '2021-11-06 23:39:30',
+  //         y: 50
+  //     }, {
+  //         x: '2021-11-07 01:00:28',
+  //         y: 60
+  //     }, {
+  //         x: '2021-11-07 09:00:28',
+  //         y: 20
+  //     }]
+  // }],
 
   const data = useMemo(
     () => ({
-      labels: labels,
       datasets: [
         {
-          label: "Dataset 1",
-          data: labels.map(() => Math.floor(Math.random() * 100)),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-          tension: 0.4,
-        },
-        {
-          label: "Dataset 2",
-          data: labels.map(() => Math.floor(Math.random() * 100)),
+          name: "A",
+          data: dataArray,
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.5)",
-          tension: 0.2,
         },
       ],
     }),
@@ -58,29 +90,29 @@ const memory = ({ id, componentId }: { id: string; componentId: string }) => {
       responsive: true,
       id: id,
       options: {
+        animations: {
+          tension: {
+            duration: 500,
+            easing: "linear",
+            from: 1,
+            to: 0,
+            loop: true,
+          },
+        },
         scales: {
           x: {
             type: "timeseries",
-            max: 100,
-            ticks: {
-              count: 5,
+            time: {
+              displayFormats: {
+                quarter: "MMM YYYY",
+              },
             },
+            // max: 100,
+            // ticks: {
+            //   count: 5,
+            // },
           },
         },
-        // animations: {
-        //   radius: {
-        //     duration: 400,
-        //     easing: "linear",
-        //     loop: (context: any) => context.active,
-        //   },
-        // },
-        // hoverRadius: 12,
-        // hoverBackgroundColor: "yellow",
-        // interaction: {
-        //   mode: "nearest",
-        //   intersect: false,
-        //   axis: "x",
-        // },
         plugins: {
           tooltip: {
             enabled: true,
@@ -91,49 +123,51 @@ const memory = ({ id, componentId }: { id: string; componentId: string }) => {
     []
   );
 
-  const handleClick = () => {
+  const updateData = () => {
     const { current: chart } = chartRef;
 
     if (!chart) {
       return;
     }
-
-    setInterval(() => {
-      addData(chart);
-    }, 1000);
+    addData(chart);
+    // setInterval(() => {
+    //   addData(chart);
+    // }, 1000);
   };
 
   const addData = (chart: Chart) => {
     const data = chart.data;
 
     if (data.datasets.length > 0) {
-      const dataLabels = data.labels as number[];
-      const lastValue = dataLabels.at(-1);
-      if (!lastValue) return;
+      // const dataLabels = data.datasets.data;
+      // const lastValue = dataLabels.at(-1).x;
+      // const now = new Date(lastValue);
 
-      data.labels = [...dataLabels, lastValue + 1];
+      // if (!lastValue) return;
+
+      // data.labels = [...dataLabels, now.setFullYear(now.getFullYear() + 1);];
 
       for (let index = 0; index < data.datasets.length; ++index) {
-        data.datasets[index].data.push(Math.floor(Math.random() * 100));
-        // data.datasets[index].data.shift();
+        const lastValue = data.datasets[index].data?.at(-1).x;
+        const now = new Date(lastValue);
+        now.setFullYear(now.getFullYear() + 1);
+        data.datasets[index].data.push({
+          x: convertDateString(now),
+          y: queryResponse,
+        });
       }
 
-      // data.labels.shift();
-      console.log(data.labels, data.datasets[0].data);
       chart.update();
     }
   };
 
-  useEffect(() => {
-    setInterval(() => {}, 1000);
-  }, []);
   return (
     <div className={`component`}>
       <div>memory</div>
       {/* <Button sx={commonSX} onClick={addData} defaultValue="add Data" /> */}
       <Line
         ref={chartRef}
-        onClick={handleClick}
+        // onClick={handleClick}
         options={config}
         datasetIdKey={id}
         data={data}

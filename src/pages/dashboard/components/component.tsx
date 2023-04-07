@@ -11,5 +11,9 @@ export default function Widget({
   const DynamicWidget = dynamic<any>(() => import(`./${componentId}`), {
     loading: () => <p>Loading...</p>,
   });
-  return <DynamicWidget componentId={componentId} id={id} />;
+  return (
+    <div style={{ width: "100%", height: "100%" }}>
+      <DynamicWidget componentId={componentId} id={id} />
+    </div>
+  );
 }
