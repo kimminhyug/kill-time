@@ -14,7 +14,7 @@ import "react-resizable/css/styles.css";
 const Dashboard = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
   const [layouts, setLayout] = useState(
-    getComponentLayoutSample("lg", "test", 6)
+    getComponentLayoutSample("lg", "test", 2)
   );
   const handleLayoutChange = () => {};
   const theme = "dark";

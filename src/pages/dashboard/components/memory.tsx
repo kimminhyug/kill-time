@@ -1,11 +1,5 @@
 import { Line } from "react-chartjs-2";
-import {
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-} from "chart.js";
+import { TimeScale, PointElement, LineElement, Title } from "chart.js";
 import { Chart } from "chart.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -13,13 +7,8 @@ import { getListTest } from "../../common/query";
 import { convertDateString } from "../../../utils/theme/time";
 
 const memory = ({ id, componentId }: { id: string; componentId: string }) => {
-  Chart.register([
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-  ]);
+  /** chart에 register 해두면, 전역 설정으로ㅓ 들어가므로, 공통코드에서 설정하도록 변경 필요 */
+  Chart.register([TimeScale]);
   const chartRef = useRef();
   const DATA_COUNT = 7;
 
@@ -90,27 +79,31 @@ const memory = ({ id, componentId }: { id: string; componentId: string }) => {
       responsive: true,
       id: id,
       options: {
-        animations: {
-          tension: {
-            duration: 500,
-            easing: "linear",
-            from: 1,
-            to: 0,
-            loop: true,
-          },
-        },
+        // animations: {
+        //   tension: {
+        //     duration: 500,
+        //     easing: "linear",
+        //     from: 1,
+        //     to: 0,
+        //     loop: true,
+        //   },
+        // },
         scales: {
-          x: {
-            type: "timeseries",
-            time: {
-              displayFormats: {
-                quarter: "MMM YYYY",
+          customScaleId: {
+            x: {
+              bounds: "ticks",
+              type: "time",
+              time: {
+                unit: "year",
+                // displayFormats: {
+                //   quarter: "MMM YYYY",
+                // },
               },
+              // max: 100,
+              // ticks: {
+              //   count: 5,
+              // },
             },
-            // max: 100,
-            // ticks: {
-            //   count: 5,
-            // },
           },
         },
         plugins: {
@@ -130,6 +123,7 @@ const memory = ({ id, componentId }: { id: string; componentId: string }) => {
       return;
     }
     addData(chart);
+
     // setInterval(() => {
     //   addData(chart);
     // }, 1000);
@@ -139,14 +133,6 @@ const memory = ({ id, componentId }: { id: string; componentId: string }) => {
     const data = chart.data;
 
     if (data.datasets.length > 0) {
-      // const dataLabels = data.datasets.data;
-      // const lastValue = dataLabels.at(-1).x;
-      // const now = new Date(lastValue);
-
-      // if (!lastValue) return;
-
-      // data.labels = [...dataLabels, now.setFullYear(now.getFullYear() + 1);];
-
       for (let index = 0; index < data.datasets.length; ++index) {
         const lastValue = data.datasets[index].data?.at(-1).x;
         const now = new Date(lastValue);
@@ -155,6 +141,14 @@ const memory = ({ id, componentId }: { id: string; componentId: string }) => {
           x: convertDateString(now),
           y: queryResponse,
         });
+
+        if (index === 0) {
+          const labels = new Set(
+            data.datasets[index].data.map((item) => item.x)
+          );
+
+          chart.data.labels = Array.from(labels);
+        }
       }
 
       chart.update();
