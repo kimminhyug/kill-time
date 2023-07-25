@@ -3,12 +3,8 @@
  * Widget: 사용자가 추가한 Component
  **/
 
-import { maxHeight, maxWidth, minHeight } from "@mui/system";
-import { Layout } from "react-grid-layout";
-import { IDashboardBreakPoints } from "../types/dashboard.types";
-interface ILayout extends Layout {
-  componentId: string;
-}
+import { IDashboardBreakPoints, ILayout } from "../types/dashboard.types";
+
 export const DASHBOARD_BREAK_POINTS: IDashboardBreakPoints = {
   lg: { size: 1200, columns: 12 },
   md: { size: 996, columns: 10 },
@@ -52,11 +48,9 @@ export const getComponentLayoutSample = (
       maxW: defaultSize.w * 2,
       minH: defaultSize.h,
       maxH: defaultSize.h * 2,
-      // static: false,
+
       isDraggable: true,
       isResizable: true,
-      // resizeHandles: ["se"],
-      // isBounded: false,
     };
 
     result.push(componentSample);

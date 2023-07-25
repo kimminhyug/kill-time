@@ -4,6 +4,7 @@ const MENU_DASHBOARD: IMenu = {
   id: "dashboard",
   name: "Dashboard",
   icon: "Dashboard",
+  path: "src/pages/dashboard",
   order: 1,
 };
 

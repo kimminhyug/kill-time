@@ -23,6 +23,7 @@
     "chart.js": "^4.2.1",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
+    "lodash": "^4.17.21",
     "next": "13.1.1",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -32,6 +33,7 @@
     "typescript": "5.0.2"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.194",
     "@types/react": "^18.0.33",
     "eslint-config-prettier": "^8.8.0",
     "sass": "^1.60.0"

@@ -4,11 +4,9 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Collapse,
 } from "@mui/material";
-import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import { useCallback, useState } from "react";
-import { DEFAULT_MENU } from "./constants/menu.constatns";
+import { DEFAULT_MENU } from "./constants/menu.constants";
 import { ICON } from "../icon/icon";
 import { IMenu } from "./types/menu.types";
 
